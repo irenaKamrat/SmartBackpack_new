@@ -9,19 +9,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.smartbp.model.Item;
+
 
 /**
  * Created by ikamrat on 07/03/2016.
  */
-public class CustomItemsAdapter extends ArrayAdapter<Model> {
+public class CustomItemsAdapter extends ArrayAdapter<Item> {
 
-    Model[] modelItems = null;
+    Item[] items = null;
     Context context;
 
-    public CustomItemsAdapter(Context context, Model[] resource) {
-        super(context, R.layout.row,resource);
+    public CustomItemsAdapter(Context context, Item[] items) {
+        super(context, R.layout.row, items);
         this.context = context;
-        this.modelItems = resource;
+        this.items = items;
     }
 
     @Override
@@ -30,8 +32,8 @@ public class CustomItemsAdapter extends ArrayAdapter<Model> {
         convertView = inflater.inflate(R.layout.row, parent, false);
         TextView name = (TextView) convertView.findViewById(R.id.textView);
         ImageView img = (ImageView) convertView.findViewById(R.id.checkBox);
-        name.setText(modelItems[position].getName());
-        if(modelItems[position].getValue() == 0) {
+        name.setText(items[position].getName());
+        if(items[position].getStatus() == 0) {
             img.setImageResource(R.drawable.failure);
         }
         else {

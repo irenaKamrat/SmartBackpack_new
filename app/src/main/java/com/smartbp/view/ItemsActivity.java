@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.smartbp.model.Item;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -37,30 +39,30 @@ public class ItemsActivity extends AppCompatActivity {
         //startActivity(new Intent
         //       (ItemsActivity.this, ItemsListAdapter.class));
 
-        Map<String, Model[]> itemsPerSubjectMap = new HashMap<>();
-        Model[] mathItemsList = new Model[3];
-        mathItemsList[0] = new Model("Book1", 1);
-        mathItemsList[1] = new Model("Calculator", 1);
-        mathItemsList[2] = new Model("Notebook", 1);
-        itemsPerSubjectMap.put("Math", mathItemsList);
+        Map<String, Item[]> itemsPerSubjectMap = new HashMap<>();
+        Item[] mathItems = new Item[3];
+        mathItems[0] = new Item("Book1", 1);
+        mathItems[1] = new Item("Calculator", 1);
+        mathItems[2] = new Item("Notebook", 1);
+        itemsPerSubjectMap.put("Math", mathItems);
 
-        Model[] englishItemsList = new Model[3];
-        englishItemsList[0] = new Model("Book1", 0);
-        englishItemsList[1] = new Model("Book2", 1);
-        englishItemsList[2] = new Model("Notebook", 1);
-        itemsPerSubjectMap.put("English", englishItemsList);
+        Item[] englishItems = new Item[3];
+        englishItems[0] = new Item("Book1", 0);
+        englishItems[1] = new Item("Book2", 1);
+        englishItems[2] = new Item("Notebook", 1);
+        itemsPerSubjectMap.put("English", englishItems);
 
-        Model[] bibleItemsList = new Model[3];
-        bibleItemsList[0] = new Model("Bible book", 1);
-        bibleItemsList[1] = new Model("Book2", 0);
-        bibleItemsList[2] = new Model("Notebook", 1);
-        itemsPerSubjectMap.put("Bible", bibleItemsList);
+        Item[] bibleItems = new Item[3];
+        bibleItems[0] = new Item("Bible book", 1);
+        bibleItems[1] = new Item("Book2", 0);
+        bibleItems[2] = new Item("Notebook", 1);
+        itemsPerSubjectMap.put("Bible", bibleItems);
 
-        Model[] scienceItemsList = new Model[3];
-        scienceItemsList[0] = new Model("Book1", 1);
-        scienceItemsList[1] = new Model("Book2", 1);
-        scienceItemsList[2] = new Model("Notebook", 1);
-        itemsPerSubjectMap.put("Science", scienceItemsList);
+        Item[] scienceItems = new Item[3];
+        scienceItems[0] = new Item("Book1", 1);
+        scienceItems[1] = new Item("Book2", 1);
+        scienceItems[2] = new Item("Notebook", 1);
+        itemsPerSubjectMap.put("Science", scienceItems);
 
         String subject = getIntent().getStringExtra("subject");
         CustomItemsAdapter adapter = new CustomItemsAdapter(

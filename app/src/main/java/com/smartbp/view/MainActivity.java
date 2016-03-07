@@ -19,9 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.smartbp.edison.connector.EidsonClient;
+import com.smartbp.model.Subject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,20 +45,20 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         ListView lv = (ListView) findViewById(R.id.listView);
-        final Model[] modelItems = new Model[4];
-        modelItems[0] = new Model("Math", 1);
-        modelItems[1] = new Model("English", 0);
-        modelItems[2] = new Model("Bible", 0);
-        modelItems[3] = new Model("Science", 1);
-        CustomAdapter adapter = new CustomAdapter(this, modelItems);
+
+        final Subject[] subjects = new Subject[4];
+        subjects[0] = new Subject("Math", 1);
+        subjects[1] = new Subject("English", 0);
+        subjects[2] = new Subject("Bible", 0);
+        subjects[3] = new Subject("Science", 1);
+
+        CustomAdapter adapter = new CustomAdapter(this, subjects);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getApplicationContext(), "Tovi help us", Toast.LENGTH_LONG).show();
-
                 Intent intent = new Intent(MainActivity.this, ItemsActivity.class);
-                intent.putExtra("subject", modelItems[position].getName());
+                intent.putExtra("subject", subjects[position].getName());
                 startActivity(intent);
             }
         });
