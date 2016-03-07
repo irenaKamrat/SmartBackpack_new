@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.smartbp.bl.BusinessLogic;
 import com.smartbp.model.Item;
 
 import java.text.SimpleDateFormat;
@@ -36,37 +37,10 @@ public class ItemsActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //startActivity(new Intent
-        //       (ItemsActivity.this, ItemsListAdapter.class));
-
-        Map<String, Item[]> itemsPerSubjectMap = new HashMap<>();
-        Item[] mathItems = new Item[3];
-        mathItems[0] = new Item("Book1", 1);
-        mathItems[1] = new Item("Calculator", 1);
-        mathItems[2] = new Item("Notebook", 1);
-        itemsPerSubjectMap.put("Math", mathItems);
-
-        Item[] englishItems = new Item[3];
-        englishItems[0] = new Item("Book1", 0);
-        englishItems[1] = new Item("Book2", 1);
-        englishItems[2] = new Item("Notebook", 1);
-        itemsPerSubjectMap.put("English", englishItems);
-
-        Item[] bibleItems = new Item[3];
-        bibleItems[0] = new Item("Bible book", 1);
-        bibleItems[1] = new Item("Book2", 0);
-        bibleItems[2] = new Item("Notebook", 1);
-        itemsPerSubjectMap.put("Bible", bibleItems);
-
-        Item[] scienceItems = new Item[3];
-        scienceItems[0] = new Item("Book1", 1);
-        scienceItems[1] = new Item("Book2", 1);
-        scienceItems[2] = new Item("Notebook", 1);
-        itemsPerSubjectMap.put("Science", scienceItems);
-
         String subject = getIntent().getStringExtra("subject");
+
         CustomItemsAdapter adapter = new CustomItemsAdapter(
-                this, itemsPerSubjectMap.get(subject));
+                this, BusinessLogic.getItemsForSubject(subject));
 
         ListView lv = (ListView) findViewById(R.id.itemsListView);
         lv.setAdapter(adapter);

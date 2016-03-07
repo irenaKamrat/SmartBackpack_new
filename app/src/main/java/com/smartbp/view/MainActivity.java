@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.smartbp.bl.BusinessLogic;
 import com.smartbp.edison.connector.EidsonClient;
 import com.smartbp.model.Subject;
 
@@ -44,25 +45,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListView lv = (ListView) findViewById(R.id.listView);
-
-        final Subject[] subjects = new Subject[4];
-        subjects[0] = new Subject("Math", 1);
-        subjects[1] = new Subject("English", 0);
-        subjects[2] = new Subject("Bible", 0);
-        subjects[3] = new Subject("Science", 1);
-
-        CustomAdapter adapter = new CustomAdapter(this, subjects);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ItemsActivity.class);
-                intent.putExtra("subject", subjects[position].getName());
-                startActivity(intent);
-            }
-        });
-
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
@@ -77,6 +59,21 @@ public class MainActivity extends AppCompatActivity
         else if (Calendar.FRIDAY == dayOfWeek) weekDay = "friday";
         else if (Calendar.SATURDAY == dayOfWeek) weekDay = "saturday";
         else if (Calendar.SUNDAY == dayOfWeek) weekDay = "sunday";
+
+        ListView lv = (ListView) findViewById(R.id.listView);
+
+        final Subject[] subjects = BusinessLogic.getSubjectsForDay(weekDay);
+
+        CustomAdapter adapter = new CustomAdapter(this, BusinessLogic.getSubjectsForDay(weekDay));
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, ItemsActivity.class);
+                intent.putExtra("subject", subjects[position].getName());
+                startActivity(intent);
+            }
+        });
 
         TextView currentDay = (TextView) findViewById(R.id.current_day);
         currentDay.setText(weekDay + " " + formattedDate);
