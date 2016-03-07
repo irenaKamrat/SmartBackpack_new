@@ -21,11 +21,21 @@
         android:autoText="true"
         android:paddingTop="20dp" />‏
 
+    <TextView style="?android:attr/listSeparatorTextViewStyle"
+        android:id="@+id/subject"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_day"
+        android:textColor="#41d9d6"
+        android:textSize="20sp"
+        android:autoText="true"
+        android:paddingTop="20dp" />‏
+
     <ListView
         android:id="@+id/itemsListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/current_day"
+        android:layout_below="@+id/subject"
         android:paddingTop="20dp"
         android:paddingLeft="20dp"/>
 

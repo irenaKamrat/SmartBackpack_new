@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.smartbp.edison.connector.EidsonClient;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,10 +43,10 @@ public class MainActivity extends AppCompatActivity
 
         ListView lv = (ListView) findViewById(R.id.listView);
         final Model[] modelItems = new Model[4];
-        modelItems[0] = new Model("Math", 0);
-        modelItems[1] = new Model("English", 1);
-        modelItems[2] = new Model("Bible", 1);
-        modelItems[3] = new Model("Science", 0);
+        modelItems[0] = new Model("Math", 1);
+        modelItems[1] = new Model("English", 0);
+        modelItems[2] = new Model("Bible", 0);
+        modelItems[3] = new Model("Science", 1);
         CustomAdapter adapter = new CustomAdapter(this, modelItems);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,8 +60,23 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = df.format(c.getTime());
+
+        String weekDay = "";
+        if (Calendar.MONDAY == dayOfWeek) weekDay = "monday";
+        else if (Calendar.TUESDAY == dayOfWeek) weekDay = "tuesday";
+        else if (Calendar.WEDNESDAY == dayOfWeek) weekDay = "wednesday";
+        else if (Calendar.THURSDAY == dayOfWeek) weekDay = "thursday";
+        else if (Calendar.FRIDAY == dayOfWeek) weekDay = "friday";
+        else if (Calendar.SATURDAY == dayOfWeek) weekDay = "saturday";
+        else if (Calendar.SUNDAY == dayOfWeek) weekDay = "sunday";
+
         TextView currentDay = (TextView) findViewById(R.id.current_day);
-        currentDay.setText("Sunday 06/03/2016");
+        currentDay.setText(weekDay + " " + formattedDate);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

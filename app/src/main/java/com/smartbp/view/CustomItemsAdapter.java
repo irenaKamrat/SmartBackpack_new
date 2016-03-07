@@ -29,14 +29,14 @@ public class CustomItemsAdapter extends ArrayAdapter<Model> {
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
         convertView = inflater.inflate(R.layout.row, parent, false);
         TextView name = (TextView) convertView.findViewById(R.id.textView);
-        ImageView cb = (ImageView) convertView.findViewById(R.id.checkBox);
+        ImageView img = (ImageView) convertView.findViewById(R.id.checkBox);
         name.setText(modelItems[position].getName());
-        /*if(modelItems[position].getValue() == 1) {
-            cb.setText("enabled");
+        if(modelItems[position].getValue() == 0) {
+            img.setImageResource(R.drawable.failure);
         }
         else {
-            cb.setText("disabled");
-        }*/
+            img.setImageResource(R.drawable.success);
+        }
         return convertView;
     }
 }
