@@ -1,9 +1,7 @@
-package com.smartbp.edison.connector;
+package com.smartbp.edison.connector.udp;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -11,7 +9,7 @@ import java.net.InetAddress;
 /**
  * Created by tovi on 3/7/2016.
  */
-public class EidsonServer {
+public class EidsonUDPServerImpl {
 
 
 
@@ -35,7 +33,7 @@ public class EidsonServer {
     }
 
     public static void main(String[] params) throws IOException {
-        EidsonServer server = new EidsonServer();
+        EidsonUDPServerImpl server = new EidsonUDPServerImpl();
         server.runServer();
     }
 

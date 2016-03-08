@@ -1,4 +1,4 @@
-package com.smartbp.edison.connector;
+package com.smartbp.edison.connector.udp;
 
 
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 /**
  * Created by tovi on 3/7/2016.
  */
-public class EidsonClient {
+public class EidsonUDPClientImpl {
 
 
 
