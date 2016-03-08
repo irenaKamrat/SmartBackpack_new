@@ -24,17 +24,18 @@ public class DBHelper extends SQLiteOpenHelper {
         //" )" +
 
         "CREATE TABLE IF NOT EXISTS" + DBContract.Item.TABLE_NAME + " (" +
-            DBContract.Item._ID + " INTEGER PRIMARY KEY," +
+            DBContract.Item._ID + " INTEGER PRIMARY KEY autoincrement," +
             DBContract.Item.COLUMN_NAME_ITEM_NAME + TEXT_TYPE + COMMA_SEP +
             DBContract.Item.COLUMN_NAME_RFID + TEXT_TYPE + COMMA_SEP +
             //DBContract.Item.COLUMN_NAME_SUBJECT_ID + INTEGER_TYPE + COMMA_SEP +
             DBContract.Item.COLUMN_NAME_SUBJECT + TEXT_TYPE + COMMA_SEP +
+            " UNIQUE (" + DBContract.Item.COLUMN_NAME_RFID + ")" +
             //"FOREIGN KEY("+ DBContract.Item.COLUMN_NAME_SUBJECT_ID + ") REFERENCES " +
             //    DBContract.Subject.TABLE_NAME + "(" + DBContract.Subject._ID + ")" +
         " )" +
 
         "CREATE TABLE IF NOT EXISTS" + DBContract.Schedule.TABLE_NAME + " (" +
-            DBContract.Schedule._ID + " INTEGER PRIMARY KEY," +
+            DBContract.Schedule._ID + " INTEGER PRIMARY KEY autoincrement," +
             DBContract.Schedule.COLUMN_NAME_DAY + TEXT_TYPE + COMMA_SEP +
             DBContract.Schedule.COLUMN_NAME_SUBJECT + TEXT_TYPE + COMMA_SEP +
             //DBContract.Schedule.COLUMN_NAME_SUBJECT_ID + INTEGER_TYPE + COMMA_SEP +
@@ -84,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(DBContract.Item.COLUMN_NAME_ITEM_NAME, item.getName());
         contentValues.put(DBContract.Item.COLUMN_NAME_RFID, item.getRfid());
         contentValues.put(DBContract.Item.COLUMN_NAME_SUBJECT, item.getSubject());
-        db.insert(DBContract.Item.TABLE_NAME, null, contentValues);
+        db.insertWithOnConflict(DBContract.Item.TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
         return true;
     }
 
@@ -203,5 +204,19 @@ public class DBHelper extends SQLiteOpenHelper {
             subjects.add(subject);
         }
         return subjects;
+    }
+
+    public void removeAllItems ()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(DBContract.Item.TABLE_NAME, null, null);
+    }
+
+    public void removeSchedule ()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(DBContract.Schedule.TABLE_NAME, null, null);
     }
 }
