@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by 10062474 on 3/7/2016.
  */
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
