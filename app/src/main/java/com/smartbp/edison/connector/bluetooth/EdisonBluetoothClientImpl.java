@@ -51,12 +51,15 @@ public class EdisonBluetoothClientImpl implements EdisonClient {
                 if (device.getName().equals(DEVICE_NAME)) {
                     try {
                         socket = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                        if(BluetoothDevice.BOND_NONE==device.getBondState()){
+                            System.err.append("Device not connected");
+                            return ids;
+                        }
                         socket.connect();
                         //      byte[] data = new byte[1];
                         //      InputStream inputStream = socket.getInputStream();
                         //      inputStream.read(data);
                         //     String s = new String(data, "UTF-8");
-
                         BufferedReader ein = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         // char[] data = new char[2];
                         String line = ein.readLine();

@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smartbp.bl.BackPackService;
+import com.smartbp.edison.connector.EdisonClient;
 import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Subject;
 import com.smartbp.types.DayOfWeek;
@@ -38,17 +41,31 @@ public class CurrentDayActivity extends AppCompatActivity {
             }
         });
 
-        ListView lv = (ListView) findViewById(R.id.listView);
+        final ListView lv = (ListView) findViewById(R.id.listView);
 
         final DayOfWeek day = DayOfWeek.fromStringDay(getIntent().getStringExtra("day"));
 
         CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
-        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(day);
 
+        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(day);
         CustomAdapter adapter = new CustomAdapter(this, subjects);
         lv.setAdapter(adapter);
 
         TextView currentDayView = (TextView) findViewById(R.id.current_day);
+
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.current_day_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                BackPackService.INSTANCE.refreshIDs();
+                final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(day);
+                CustomAdapter adapter = new CustomAdapter(CurrentDayActivity.this, subjects);
+                lv.setAdapter(adapter);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         final boolean isCurrentDay = currentDay.getDayOfWeek().equals(day);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
