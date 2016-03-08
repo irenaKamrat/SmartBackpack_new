@@ -35,7 +35,6 @@ public class ItemsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String subject = getIntent().getStringExtra("subject");
         String day = getIntent().getStringExtra("day");

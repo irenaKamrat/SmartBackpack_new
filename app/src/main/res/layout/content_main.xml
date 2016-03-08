@@ -17,8 +17,6 @@
         android:layout_height="120dp"
         android:id="@+id/imageViewPhoto1"
         android:src="@drawable/child_1" />
-        <!--android:background="#4155d9" -->
-
 
     <ListView
         android:id="@+id/weekDays"

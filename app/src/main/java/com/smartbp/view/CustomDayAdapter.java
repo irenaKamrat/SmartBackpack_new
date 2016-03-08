@@ -3,6 +3,7 @@ package com.smartbp.view;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class CustomDayAdapter extends ArrayAdapter<DayOfWeek> {
         ImageView img = (ImageView) convertView.findViewById(R.id.subjectIcon);
         day.setText(days[position].getName());
         if(currentDay.getDayOfWeek().getName().equals(days[position].getName())) {
+            day.setTypeface(null, Typeface.BOLD);
             if (DayStatus.READY.equals(currentDay.getDayStatus())) {
                 //convertView.setBackgroundColor(Color.GREEN);
                 img.setImageResource(R.drawable.success);
