@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smartbp.model.Subject;
+import com.smartbp.types.SubjectStatus;
 
 import java.util.List;
 
@@ -34,10 +35,12 @@ public class CustomAdapter extends ArrayAdapter<Subject> {
         TextView name = (TextView) convertView.findViewById(R.id.textView);
         ImageView img = (ImageView) convertView.findViewById(R.id.checkBox);
         name.setText(subjects[position].getName());
-        if(subjects[position].getStatus() == 0) {
+        SubjectStatus subjectStatus = subjects[position].getStatus();
+        if(SubjectStatus.MISSING.equals(subjects[position].getStatus())) {
             img.setImageResource(R.drawable.failure);
-        }
-        else {
+        } else if(SubjectStatus.READY.equals(subjectStatus)) {
+            img.setImageResource(R.drawable.success);
+        }else if(SubjectStatus.EXTRA.equals(subjectStatus)) {
             img.setImageResource(R.drawable.success);
         }
         return convertView;

@@ -1,20 +1,22 @@
 package com.smartbp.model;
 
+import com.smartbp.types.SubjectStatus;
+
 /**
  * Created by ikamrat on 07/03/2016.
  */
 public class Item {
     private String name;
-    private int status;
+    private SubjectStatus status;
     private String rfid;
 
-    public Item(String name, int status, String rfid) {
+    public Item(String name, SubjectStatus status, String rfid) {
         this.name = name;
         this.status = status;
         this.rfid = rfid;
     }
 
-    public Item(String name, int status) {
+    public Item(String name, SubjectStatus status) {
         this.name = name;
         this.status = status;
     }
@@ -27,11 +29,11 @@ public class Item {
         this.name = name;
     }
 
-    public int getStatus() {
+    public SubjectStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(SubjectStatus status) {
         this.status = status;
     }
 
