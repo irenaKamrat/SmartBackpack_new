@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.smartbp.bl.BackBackServiceImpl;
 import com.smartbp.bl.BackPackService;
 import com.smartbp.model.CurrentDay;
+import com.smartbp.types.DayOfWeek;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,20 +38,27 @@ public class ItemsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String subject = getIntent().getStringExtra("subject");
+        String day = getIntent().getStringExtra("day");
+        boolean isCurrentDay = getIntent().getBooleanExtra("isCurrentDay", false);
 
         CustomItemsAdapter adapter = new CustomItemsAdapter(
-                this, BackPackService.INSTANCE.getItemsForSubject(subject));
+                this, BackPackService.INSTANCE.getItemsForSubject(subject, isCurrentDay));
 
         ListView lv = (ListView) findViewById(R.id.itemsListView);
         lv.setAdapter(adapter);
 
-        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
-
-        TextView currentDayView = (TextView) findViewById(R.id.current_day);
-        currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
-
         TextView subjectView = (TextView) findViewById(R.id.subject);
         subjectView.setText(subject);
+
+        TextView currentDayView = (TextView) findViewById(R.id.current_day);
+
+        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
+        if (isCurrentDay) {
+            currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
+        }
+        else {
+            currentDayView.setText(day);
+        }
     }
 
 }

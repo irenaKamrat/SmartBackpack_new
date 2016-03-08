@@ -17,7 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#4155d9"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:autoText="true"
         android:paddingTop="20dp" />‏
 

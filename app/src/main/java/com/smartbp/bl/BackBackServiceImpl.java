@@ -29,7 +29,7 @@ public class BackBackServiceImpl implements BackPackService {
             subjects[1] = new Subject("English", SubjectStatus.MISSING);
             subjects[2] = new Subject("Bible", SubjectStatus.MISSING);
             subjects[3] = new Subject("Science", SubjectStatus.READY);
-            subjects[4] = new Subject("Literature", SubjectStatus.EXTRA);
+            subjects[4] = new Subject("Extra", SubjectStatus.EXTRA);
             return subjects;
         }
 
@@ -87,7 +87,7 @@ public class BackBackServiceImpl implements BackPackService {
         return currentDay;
     }
 
-    public Item[] getItemsForSubject(String subjectName) {
+    public Item[] getItemsForSubject(String subjectName, boolean isCurrentDay) {
         //TODO
         Map<String, Item[]> itemsPerSubjectMap = new HashMap<>();
         Item[] mathItems = new Item[3];
@@ -109,21 +109,26 @@ public class BackBackServiceImpl implements BackPackService {
         itemsPerSubjectMap.put("Science", scienceItems);
 
         Item[] bibleItems = new Item[2];
-        bibleItems[0] = new Item("Bible book", SubjectStatus.EXTRA);
-        bibleItems[1] = new Item("Notebook", SubjectStatus.EXTRA);
+        bibleItems[0] = new Item("Bible book", SubjectStatus.MISSING);
+        bibleItems[1] = new Item("Notebook", SubjectStatus.READY);
         itemsPerSubjectMap.put("Bible", bibleItems);
 
         Item[] literatureItems = new Item[2];
-        literatureItems[0] = new Item("Book", SubjectStatus.EXTRA);
-        literatureItems[1] = new Item("Notebook", SubjectStatus.EXTRA);
+        literatureItems[0] = new Item("Book", SubjectStatus.READY);
+        literatureItems[1] = new Item("Notebook", SubjectStatus.READY);
         itemsPerSubjectMap.put("Literature", literatureItems);
 
-        Item[] extraItems = new Item[3];
-        extraItems[0] = new Item("Bible book", SubjectStatus.EXTRA);
-        extraItems[1] = new Item("English Book2", SubjectStatus.EXTRA);
-        extraItems[2] = new Item("English Notebook", SubjectStatus.EXTRA);
+        Item[] extraItems = new Item[2];
+        extraItems[0] = new Item("Literature Book", SubjectStatus.READY);
+        extraItems[1] = new Item("Music Notebook", SubjectStatus.READY);
         itemsPerSubjectMap.put("Extra", extraItems);
 
-        return itemsPerSubjectMap.get(subjectName);
+        Item[] items = itemsPerSubjectMap.get(subjectName);
+        if (!isCurrentDay) {
+            for (Item item : items) {
+                item.setStatus(SubjectStatus.NOT_RELEVANT);
+            }
+        }
+        return items;
     }
 }

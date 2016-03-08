@@ -19,6 +19,6 @@ public interface BackPackService {
 
     CurrentDay getCurrentDay();
 
-    Item[] getItemsForSubject(String subjectName);
+    Item[] getItemsForSubject(String subjectName, boolean isCurrentDay);
 
 }

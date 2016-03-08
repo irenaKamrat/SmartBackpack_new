@@ -12,29 +12,13 @@
     tools:context="com.smartbp.view.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--<TextView style="?android:attr/listSeparatorTextViewStyle"
-        android:id="@+id/current_day"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#4155d9"
-        android:textSize="20sp"
-        android:autoText="true"
-        android:paddingTop="20dp" />‏
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/current_day"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp" />-->
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:id="@+id/imageViewPhoto1"
-        android:background="#4155d9"
-        android:src="@drawable/girl" />
+        android:src="@drawable/child_1" />
+        <!--android:background="#4155d9" -->
+
 
     <ListView
         android:id="@+id/weekDays"

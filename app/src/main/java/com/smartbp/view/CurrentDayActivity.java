@@ -40,7 +40,7 @@ public class CurrentDayActivity extends AppCompatActivity {
 
         ListView lv = (ListView) findViewById(R.id.listView);
 
-        DayOfWeek day = DayOfWeek.fromStringDay(getIntent().getStringExtra("day"));
+        final DayOfWeek day = DayOfWeek.fromStringDay(getIntent().getStringExtra("day"));
 
         CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
         final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(day);
@@ -49,17 +49,20 @@ public class CurrentDayActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         TextView currentDayView = (TextView) findViewById(R.id.current_day);
+        final boolean isCurrentDay = currentDay.getDayOfWeek().equals(day);
 
-        if (currentDay.getDayOfWeek().equals(day)) {
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(CurrentDayActivity.this, ItemsActivity.class);
-                    intent.putExtra("subject", subjects[position].getName());
-                    startActivity(intent);
-                }
-            });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CurrentDayActivity.this, ItemsActivity.class);
+                intent.putExtra("subject", subjects[position].getName());
+                intent.putExtra("isCurrentDay", isCurrentDay);
+                intent.putExtra("day", day.getName());
+                startActivity(intent);
+            }
+        });
 
+        if (isCurrentDay) {
             currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
         }
         else {

@@ -36,13 +36,16 @@ public class CustomDayAdapter extends ArrayAdapter<DayOfWeek> {
         convertView = inflater.inflate(R.layout.day_row, parent, false);
         CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
         TextView day = (TextView) convertView.findViewById(R.id.dayRow);
+        ImageView img = (ImageView) convertView.findViewById(R.id.subjectIcon);
         day.setText(days[position].getName());
         if(currentDay.getDayOfWeek().getName().equals(days[position].getName())) {
             if (DayStatus.READY.equals(currentDay.getDayStatus())) {
-                convertView.setBackgroundColor(Color.GREEN);
+                //convertView.setBackgroundColor(Color.GREEN);
+                img.setImageResource(R.drawable.success);
             }
             else {
-                convertView.setBackgroundColor(Color.RED);
+                //convertView.setBackgroundColor(Color.RED);
+                img.setImageResource(R.drawable.failure);
             }
         }
         return convertView;
