@@ -20,27 +20,28 @@ import android.widget.Toast;
 
 import com.smartbp.bl.BackBackServiceImpl;
 import com.smartbp.bl.BackPackService;
-import com.smartbp.edison.connector.EidsonClient;
+import com.smartbp.edison.connector.EdisonClient;
+import com.smartbp.edison.connector.bluetooth.EdisonBluetoothClientImpl;
 import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Subject;
 import com.smartbp.types.DayOfWeek;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected String getIDs(){
-        EidsonClient client = new EidsonClient();
-        return client.getIDInfo();
+    protected List<String> getIDs(){
+        return EdisonClient.INSTANCE.getIDs();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String ids = getIDs();
-        //Toast.makeText(MainActivity.this, ids, Toast.LENGTH_SHORT).show();
+        String ids = getIDs().get(0);
+        Toast.makeText(MainActivity.this, ids, Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
