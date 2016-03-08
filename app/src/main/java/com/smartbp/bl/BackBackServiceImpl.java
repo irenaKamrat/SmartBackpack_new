@@ -1,18 +1,25 @@
 package com.smartbp.bl;
 
+import android.widget.TextView;
+
+import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Item;
 import com.smartbp.model.Subject;
+import com.smartbp.types.DayOfWeek;
+import com.smartbp.types.DayStatus;
+import com.smartbp.view.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by ikamrat on 07/03/2016.
  */
-public class BusinessLogic {
+public class BackBackServiceImpl implements BackPackService {
 
-
-    public static Subject[] getSubjectsForDay(String dayName) {
+    public Subject[] getSubjectsForDay(DayOfWeek day) {
         //TODO
         Subject[] subjects = new Subject[4];
         subjects[0] = new Subject("Math", 1);
@@ -23,7 +30,20 @@ public class BusinessLogic {
         return subjects;
     }
 
-    public static Item[] getItemsForSubject(String subjectName) {
+    @Override
+    public CurrentDay getCurrentDay() {
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = df.format(c.getTime());
+
+        DayOfWeek dayOfWeekValue = DayOfWeek.fromCalendarDay(dayOfWeek);
+        CurrentDay currentDay = new CurrentDay(dayOfWeekValue, DayStatus.READY, formattedDate);
+        return currentDay;
+    }
+
+    public Item[] getItemsForSubject(String subjectName) {
         //TODO
         Map<String, Item[]> itemsPerSubjectMap = new HashMap<>();
         Item[] mathItems = new Item[3];

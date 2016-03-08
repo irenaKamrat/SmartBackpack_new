@@ -10,13 +10,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.smartbp.bl.BusinessLogic;
-import com.smartbp.model.Item;
+import com.smartbp.bl.BackBackServiceImpl;
+import com.smartbp.bl.BackPackService;
+import com.smartbp.model.CurrentDay;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ItemsActivity extends AppCompatActivity {
 
@@ -40,28 +39,15 @@ public class ItemsActivity extends AppCompatActivity {
         String subject = getIntent().getStringExtra("subject");
 
         CustomItemsAdapter adapter = new CustomItemsAdapter(
-                this, BusinessLogic.getItemsForSubject(subject));
+                this, BackPackService.INSTANCE.getItemsForSubject(subject));
 
         ListView lv = (ListView) findViewById(R.id.itemsListView);
         lv.setAdapter(adapter);
 
-        Calendar c = Calendar.getInstance();
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String formattedDate = df.format(c.getTime());
-
-        String weekDay = "";
-        if (Calendar.MONDAY == dayOfWeek) weekDay = "monday";
-        else if (Calendar.TUESDAY == dayOfWeek) weekDay = "tuesday";
-        else if (Calendar.WEDNESDAY == dayOfWeek) weekDay = "wednesday";
-        else if (Calendar.THURSDAY == dayOfWeek) weekDay = "thursday";
-        else if (Calendar.FRIDAY == dayOfWeek) weekDay = "friday";
-        else if (Calendar.SATURDAY == dayOfWeek) weekDay = "saturday";
-        else if (Calendar.SUNDAY == dayOfWeek) weekDay = "sunday";
-
-        TextView currentDay = (TextView) findViewById(R.id.current_day);
-        currentDay.setText(weekDay + " " + formattedDate);
+        TextView currentDayView = (TextView) findViewById(R.id.current_day);
+        currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
 
         TextView subjectView = (TextView) findViewById(R.id.subject);
         subjectView.setText(subject);

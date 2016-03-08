@@ -11,7 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.smartbp.bl.BusinessLogic;
+import com.smartbp.bl.BackPackService;
+import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Subject;
 import com.smartbp.view.R;
 
@@ -36,26 +37,12 @@ public class CurrentDayActivity extends AppCompatActivity {
             }
         });
 
-        Calendar c = Calendar.getInstance();
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String formattedDate = df.format(c.getTime());
-
-        String weekDay = "";
-        if (Calendar.MONDAY == dayOfWeek) weekDay = "monday";
-        else if (Calendar.TUESDAY == dayOfWeek) weekDay = "tuesday";
-        else if (Calendar.WEDNESDAY == dayOfWeek) weekDay = "wednesday";
-        else if (Calendar.THURSDAY == dayOfWeek) weekDay = "thursday";
-        else if (Calendar.FRIDAY == dayOfWeek) weekDay = "friday";
-        else if (Calendar.SATURDAY == dayOfWeek) weekDay = "saturday";
-        else if (Calendar.SUNDAY == dayOfWeek) weekDay = "sunday";
-
         ListView lv = (ListView) findViewById(R.id.listView);
 
-        final Subject[] subjects = BusinessLogic.getSubjectsForDay(weekDay);
+        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
+        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(currentDay.getDayOfWeek());
 
-        CustomAdapter adapter = new CustomAdapter(this, BusinessLogic.getSubjectsForDay(weekDay));
+        CustomAdapter adapter = new CustomAdapter(this, subjects);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,8 +53,8 @@ public class CurrentDayActivity extends AppCompatActivity {
             }
         });
 
-        TextView currentDay = (TextView) findViewById(R.id.current_day);
-        currentDay.setText(weekDay + " " + formattedDate);
+        TextView currentDayView = (TextView) findViewById(R.id.current_day);
+        currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
 
     }
 

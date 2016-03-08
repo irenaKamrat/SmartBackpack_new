@@ -18,14 +18,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.smartbp.bl.BusinessLogic;
+import com.smartbp.bl.BackBackServiceImpl;
+import com.smartbp.bl.BackPackService;
 import com.smartbp.edison.connector.EidsonClient;
+import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Subject;
+import com.smartbp.types.DayOfWeek;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,26 +46,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /**Calendar c = Calendar.getInstance();
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String formattedDate = df.format(c.getTime());
-
-        String weekDay = "";
-        if (Calendar.MONDAY == dayOfWeek) weekDay = "monday";
-        else if (Calendar.TUESDAY == dayOfWeek) weekDay = "tuesday";
-        else if (Calendar.WEDNESDAY == dayOfWeek) weekDay = "wednesday";
-        else if (Calendar.THURSDAY == dayOfWeek) weekDay = "thursday";
-        else if (Calendar.FRIDAY == dayOfWeek) weekDay = "friday";
-        else if (Calendar.SATURDAY == dayOfWeek) weekDay = "saturday";
-        else if (Calendar.SUNDAY == dayOfWeek) weekDay = "sunday";
+        /**
 
         ListView lv = (ListView) findViewById(R.id.listView);
 
-        final Subject[] subjects = BusinessLogic.getSubjectsForDay(weekDay);
+        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
+        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(currentDay.getDayOfWeek());
 
-        CustomAdapter adapter = new CustomAdapter(this, BusinessLogic.getSubjectsForDay(weekDay));
+        CustomAdapter adapter = new CustomAdapter(this, subjects);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -75,8 +64,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        TextView currentDay = (TextView) findViewById(R.id.current_day);
-        currentDay.setText(weekDay + " " + formattedDate);
+        TextView currentDayView = (TextView) findViewById(R.id.current_day);
+        currentDayView.setText(currentDay.getDayOfWeek().getName()+ " " +currentDay.getDate());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
