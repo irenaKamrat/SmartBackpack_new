@@ -38,4 +38,13 @@ public enum DayOfWeek {
         }
         return null;
     }
+
+    public static DayOfWeek fromStringDay(String day){
+        for(DayOfWeek value: DayOfWeek.values()){
+            if(day.equals(value.getName())){
+                return value;
+            }
+        }
+        return null;
+    }
 }

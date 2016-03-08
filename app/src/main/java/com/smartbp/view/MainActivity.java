@@ -46,36 +46,20 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /**
-
-        ListView lv = (ListView) findViewById(R.id.listView);
-
-        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
-        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(currentDay.getDayOfWeek());
-
-        CustomAdapter adapter = new CustomAdapter(this, subjects);
+        final DayOfWeek[] daysOfWeek = DayOfWeek.values();
+        ListView lv = (ListView) findViewById(R.id.weekDays);
+        CustomDayAdapter adapter = new CustomDayAdapter(this, daysOfWeek);
         lv.setAdapter(adapter);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ItemsActivity.class);
-                intent.putExtra("subject", subjects[position].getName());
+                Intent intent = new Intent(MainActivity.this, CurrentDayActivity.class);
+                intent.putExtra("day", daysOfWeek[position].getName());
                 startActivity(intent);
             }
         });
 
-        TextView currentDayView = (TextView) findViewById(R.id.current_day);
-        currentDayView.setText(currentDay.getDayOfWeek().getName()+ " " +currentDay.getDate());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -84,7 +68,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override

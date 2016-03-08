@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.smartbp.bl.BackPackService;
 import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Subject;
+import com.smartbp.types.DayOfWeek;
 import com.smartbp.view.R;
 
 import java.text.SimpleDateFormat;
@@ -39,22 +40,31 @@ public class CurrentDayActivity extends AppCompatActivity {
 
         ListView lv = (ListView) findViewById(R.id.listView);
 
+        DayOfWeek day = DayOfWeek.fromStringDay(getIntent().getStringExtra("day"));
+
         CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
-        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(currentDay.getDayOfWeek());
+        final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(day);
 
         CustomAdapter adapter = new CustomAdapter(this, subjects);
         lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CurrentDayActivity.this, ItemsActivity.class);
-                intent.putExtra("subject", subjects[position].getName());
-                startActivity(intent);
-            }
-        });
 
         TextView currentDayView = (TextView) findViewById(R.id.current_day);
-        currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
+
+        if (currentDay.getDayOfWeek().equals(day)) {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(CurrentDayActivity.this, ItemsActivity.class);
+                    intent.putExtra("subject", subjects[position].getName());
+                    startActivity(intent);
+                }
+            });
+
+            currentDayView.setText(currentDay.getDayOfWeek().getName() + " " + currentDay.getDate());
+        }
+        else {
+            currentDayView.setText(day.getName());
+        }
 
     }
 

@@ -21,12 +21,28 @@ public class BackBackServiceImpl implements BackPackService {
 
     public Subject[] getSubjectsForDay(DayOfWeek day) {
         //TODO
-        Subject[] subjects = new Subject[4];
-        subjects[0] = new Subject("Math", 1);
-        subjects[1] = new Subject("English", 0);
-        subjects[2] = new Subject("Bible", 0);
-        subjects[3] = new Subject("Science", 1);
-
+        Subject[] subjects = new Subject[1];
+        if (getCurrentDay().getDayOfWeek().equals(day)) {
+            subjects = new Subject[4];
+            subjects[0] = new Subject("Math", 1);
+            subjects[1] = new Subject("English", 0);
+            subjects[2] = new Subject("Bible", 0);
+            subjects[3] = new Subject("Science", 1);
+        }
+        else if (day.equals(DayOfWeek.SUNDAY)) {
+            subjects = new Subject[5];
+            subjects[0] = new Subject("Math", 1);
+            subjects[1] = new Subject("English", 0);
+            subjects[2] = new Subject("Bible", 0);
+            subjects[3] = new Subject("Science", 1);
+            subjects[4] = new Subject("Literature", 1);
+        }
+        else if (day.equals(DayOfWeek.MONDAY)) {
+            subjects = new Subject[3];
+            subjects[0] = new Subject("Math", 0);
+            subjects[1] = new Subject("English", 1);
+            subjects[2] = new Subject("Literature", 1);
+        }
         return subjects;
     }
 
@@ -39,7 +55,7 @@ public class BackBackServiceImpl implements BackPackService {
         String formattedDate = df.format(c.getTime());
 
         DayOfWeek dayOfWeekValue = DayOfWeek.fromCalendarDay(dayOfWeek);
-        CurrentDay currentDay = new CurrentDay(dayOfWeekValue, DayStatus.READY, formattedDate);
+        CurrentDay currentDay = new CurrentDay(dayOfWeekValue, DayStatus.MISSING, formattedDate);
         return currentDay;
     }
 
