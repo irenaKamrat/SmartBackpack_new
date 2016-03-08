@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String ids = getIDs();
-        Toast.makeText(MainActivity.this, ids, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, ids, Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Calendar c = Calendar.getInstance();
+        /**Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

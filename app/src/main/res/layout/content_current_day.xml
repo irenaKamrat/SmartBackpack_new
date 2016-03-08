@@ -9,10 +9,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.smartbp.view.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.smartbp.view.CurrentDayActivity"
+    tools:showIn="@layout/activity_current_day">
 
-    <!--<TextView style="?android:attr/listSeparatorTextViewStyle"
+    <TextView style="?android:attr/listSeparatorTextViewStyle"
         android:id="@+id/current_day"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -26,21 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/current_day"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp" />-->
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:id="@+id/imageViewPhoto1"
-        android:background="#4155d9"
-        android:src="@drawable/girl" />
-
-    <ListView
-        android:id="@+id/weekDays"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageViewPhoto1"
         android:paddingTop="20dp"
         android:paddingLeft="20dp" />
 
