@@ -33,15 +33,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected List<String> getIDs(){
-        return EdisonClient.INSTANCE.getIDs();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //String ids = getIDs().get(0);
-        //Toast.makeText(MainActivity.this, ids, Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

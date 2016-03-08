@@ -15,6 +15,8 @@ public interface BackPackService {
 
     public static final BackPackService INSTANCE = new BackBackServiceImpl();
 
+    void refreshIDs();
+
     Subject[] getSubjectsForDay(DayOfWeek dayName);
 
     CurrentDay getCurrentDay();

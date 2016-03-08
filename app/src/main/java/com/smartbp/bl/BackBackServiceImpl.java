@@ -2,6 +2,7 @@ package com.smartbp.bl;
 
 import android.widget.TextView;
 
+import com.smartbp.edison.connector.EdisonClient;
 import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Item;
 import com.smartbp.model.Subject;
@@ -13,12 +14,20 @@ import com.smartbp.view.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by ikamrat on 07/03/2016.
  */
 public class BackBackServiceImpl implements BackPackService {
+
+    private List<String> currentRFids = new LinkedList<>();
+
+    public void refreshIDs(){
+        currentRFids = EdisonClient.INSTANCE.getIDs();
+    }
 
     public Subject[] getSubjectsForDay(DayOfWeek day) {
         //TODO

@@ -21,12 +21,18 @@
         android:autoText="true"
         android:paddingTop="20dp" />‏
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/current_day_swipe_refresh_layout"
         android:layout_below="@id/current_day"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
