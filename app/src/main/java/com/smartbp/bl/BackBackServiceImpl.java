@@ -7,6 +7,7 @@ import com.smartbp.model.Item;
 import com.smartbp.model.Subject;
 import com.smartbp.types.DayOfWeek;
 import com.smartbp.types.DayStatus;
+import com.smartbp.types.SubjectStatus;
 import com.smartbp.view.R;
 
 import java.text.SimpleDateFormat;
@@ -23,27 +24,54 @@ public class BackBackServiceImpl implements BackPackService {
         //TODO
         Subject[] subjects = new Subject[1];
         if (getCurrentDay().getDayOfWeek().equals(day)) {
-            subjects = new Subject[4];
-            subjects[0] = new Subject("Math", 1);
-            subjects[1] = new Subject("English", 0);
-            subjects[2] = new Subject("Bible", 0);
-            subjects[3] = new Subject("Science", 1);
-        }
-        else if (day.equals(DayOfWeek.SUNDAY)) {
             subjects = new Subject[5];
-            subjects[0] = new Subject("Math", 1);
-            subjects[1] = new Subject("English", 0);
-            subjects[2] = new Subject("Bible", 0);
-            subjects[3] = new Subject("Science", 1);
-            subjects[4] = new Subject("Literature", 1);
+            subjects[0] = new Subject("Math", SubjectStatus.READY);
+            subjects[1] = new Subject("English", SubjectStatus.MISSING);
+            subjects[2] = new Subject("Bible", SubjectStatus.MISSING);
+            subjects[3] = new Subject("Science", SubjectStatus.READY);
+            subjects[4] = new Subject("Literature", SubjectStatus.EXTRA);
+            return subjects;
         }
-        else if (day.equals(DayOfWeek.MONDAY)) {
-            subjects = new Subject[3];
-            subjects[0] = new Subject("Math", 0);
-            subjects[1] = new Subject("English", 1);
-            subjects[2] = new Subject("Literature", 1);
-        }
-        return subjects;
+
+        Map<DayOfWeek, Subject[]> subjectsPerDay = new HashMap<>();
+        subjects = new Subject[4];
+        subjects[0] = new Subject("Math", SubjectStatus.NOT_RELEVANT);
+        subjects[1] = new Subject("English", SubjectStatus.NOT_RELEVANT);
+        subjects[2] = new Subject("Bible", SubjectStatus.NOT_RELEVANT);
+        subjects[3] = new Subject("Literature", SubjectStatus.NOT_RELEVANT);
+        subjectsPerDay.put(DayOfWeek.SUNDAY, subjects);
+
+        subjects = new Subject[3];
+        subjects[0] = new Subject("Math", SubjectStatus.NOT_RELEVANT);
+        subjects[1] = new Subject("English", SubjectStatus.NOT_RELEVANT);
+        subjects[2] = new Subject("Bible", SubjectStatus.NOT_RELEVANT);
+        subjectsPerDay.put(DayOfWeek.MONDAY, subjects);
+
+        subjects = new Subject[3];
+        subjects[0] = new Subject("Science", SubjectStatus.NOT_RELEVANT);
+        subjects[1] = new Subject("Bible", SubjectStatus.NOT_RELEVANT);
+        subjects[2] = new Subject("Literature", SubjectStatus.NOT_RELEVANT);
+        subjectsPerDay.put(DayOfWeek.THURSDAY, subjects);
+
+        subjects = new Subject[3];
+        subjects[0] = new Subject("Math", SubjectStatus.NOT_RELEVANT);
+        subjects[1] = new Subject("English", SubjectStatus.NOT_RELEVANT);
+        subjects[2] = new Subject("Literature", SubjectStatus.NOT_RELEVANT);
+        subjectsPerDay.put(DayOfWeek.WEDNESDAY, subjects);
+
+        subjects = new Subject[3];
+        subjects[0] = new Subject("Math", SubjectStatus.NOT_RELEVANT);
+        subjects[1] = new Subject("English", SubjectStatus.NOT_RELEVANT);
+        subjects[2] = new Subject("Literature", SubjectStatus.NOT_RELEVANT);
+        subjectsPerDay.put(DayOfWeek.THURSDAY, subjects);
+
+        subjects = new Subject[3];
+        subjects[0] = new Subject("Math", SubjectStatus.NOT_RELEVANT);
+        subjects[1] = new Subject("English", SubjectStatus.NOT_RELEVANT);
+        subjects[2] = new Subject("Science", SubjectStatus.NOT_RELEVANT);
+        subjectsPerDay.put(DayOfWeek.FRIDAY, subjects);
+
+        return subjectsPerDay.get(day);
     }
 
     @Override
@@ -63,28 +91,38 @@ public class BackBackServiceImpl implements BackPackService {
         //TODO
         Map<String, Item[]> itemsPerSubjectMap = new HashMap<>();
         Item[] mathItems = new Item[3];
-        mathItems[0] = new Item("Book1", 1);
-        mathItems[1] = new Item("Calculator", 1);
-        mathItems[2] = new Item("Notebook", 1);
+        mathItems[0] = new Item("Book1", SubjectStatus.READY);
+        mathItems[1] = new Item("Calculator", SubjectStatus.READY);
+        mathItems[2] = new Item("Notebook", SubjectStatus.READY);
         itemsPerSubjectMap.put("Math", mathItems);
 
         Item[] englishItems = new Item[3];
-        englishItems[0] = new Item("Book1", 0);
-        englishItems[1] = new Item("Book2", 1);
-        englishItems[2] = new Item("Notebook", 1);
+        englishItems[0] = new Item("Book1", SubjectStatus.MISSING);
+        englishItems[1] = new Item("Book2", SubjectStatus.MISSING);
+        englishItems[2] = new Item("Notebook", SubjectStatus.READY);
         itemsPerSubjectMap.put("English", englishItems);
 
-        Item[] bibleItems = new Item[3];
-        bibleItems[0] = new Item("Bible book", 1);
-        bibleItems[1] = new Item("Book2", 0);
-        bibleItems[2] = new Item("Notebook", 1);
+        Item[] scienceItems = new Item[3];
+        scienceItems[0] = new Item("Book1", SubjectStatus.READY);
+        scienceItems[1] = new Item("Book2", SubjectStatus.READY);
+        scienceItems[2] = new Item("Notebook", SubjectStatus.READY);
+        itemsPerSubjectMap.put("Science", scienceItems);
+
+        Item[] bibleItems = new Item[2];
+        bibleItems[0] = new Item("Bible book", SubjectStatus.EXTRA);
+        bibleItems[1] = new Item("Notebook", SubjectStatus.EXTRA);
         itemsPerSubjectMap.put("Bible", bibleItems);
 
-        Item[] scienceItems = new Item[3];
-        scienceItems[0] = new Item("Book1", 1);
-        scienceItems[1] = new Item("Book2", 1);
-        scienceItems[2] = new Item("Notebook", 1);
-        itemsPerSubjectMap.put("Science", scienceItems);
+        Item[] literatureItems = new Item[2];
+        literatureItems[0] = new Item("Book", SubjectStatus.EXTRA);
+        literatureItems[1] = new Item("Notebook", SubjectStatus.EXTRA);
+        itemsPerSubjectMap.put("Literature", literatureItems);
+
+        Item[] extraItems = new Item[3];
+        extraItems[0] = new Item("Bible book", SubjectStatus.EXTRA);
+        extraItems[1] = new Item("English Book2", SubjectStatus.EXTRA);
+        extraItems[2] = new Item("English Notebook", SubjectStatus.EXTRA);
+        itemsPerSubjectMap.put("Extra", extraItems);
 
         return itemsPerSubjectMap.get(subjectName);
     }

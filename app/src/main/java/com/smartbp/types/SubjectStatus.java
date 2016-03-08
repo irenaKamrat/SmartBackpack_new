@@ -6,7 +6,8 @@ package com.smartbp.types;
 public enum SubjectStatus {
     READY("Ready"),
     MISSING("Missing"),
-    EXTRA("Extra");
+    EXTRA("Extra"),
+    NOT_RELEVANT("Not relevant");
 
     private String name;
 
