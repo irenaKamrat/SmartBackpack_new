@@ -44,19 +44,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final DayOfWeek[] daysOfWeek = DayOfWeek.values();
-        ListView lv = (ListView) findViewById(R.id.weekDays);
-        CustomDayAdapter adapter = new CustomDayAdapter(this, daysOfWeek);
-        lv.setAdapter(adapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, CurrentDayActivity.class);
-                intent.putExtra("day", daysOfWeek[position].getName());
-                startActivity(intent);
-            }
-        });
+        showDays();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -123,5 +111,29 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showDays() {
+        final DayOfWeek[] daysOfWeek = DayOfWeek.values();
+        ListView lv = (ListView) findViewById(R.id.weekDays);
+        CustomDayAdapter adapter = new CustomDayAdapter(this, daysOfWeek);
+        lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, CurrentDayActivity.class);
+                intent.putExtra("day", daysOfWeek[position].getName());
+                intent.putExtra("parent", daysOfWeek[position].getName());
+                //startActivity(intent);
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        showDays();
     }
 }

@@ -5,7 +5,8 @@ package com.smartbp.edison.connector.mock;
  */
 public enum State {
     START,
-    INSERT,
+    INSERT_1,
+    INSERT_2,
     REMOVE,
     FINAL;
 }

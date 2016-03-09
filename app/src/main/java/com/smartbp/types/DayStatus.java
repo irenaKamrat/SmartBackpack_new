@@ -5,7 +5,8 @@ package com.smartbp.types;
  */
 public enum DayStatus {
     READY("Ready"),
-    MISSING("Missing");
+    MISSING("Missing"),
+    NOT_RELEVANT("Not relevant");
 
     private String name;
 

@@ -29,4 +29,8 @@ public class CurrentDay {
     public String getDate() {
         return date;
     }
+
+    public void setDayStatus(DayStatus dayStatus) {
+        this.dayStatus = dayStatus;
+    }
 }

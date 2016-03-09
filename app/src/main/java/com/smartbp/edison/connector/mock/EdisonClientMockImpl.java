@@ -15,18 +15,22 @@ public class EdisonClientMockImpl implements EdisonClient {
     private List<String> rfIds = new ArrayList<>();
 
     public EdisonClientMockImpl(){
-        rfIds.addAll(Arrays.asList("97", "206", "114", "3"));
+        rfIds.addAll(Arrays.asList("97", "114", "3"));
     }
 
     @Override
     public List<String> getIDs() {
         switch (mockState){
             case START:
-                mockState = State.INSERT;
+                mockState = State.INSERT_1;
                 break;
-            case INSERT:
+            case INSERT_1:
                 rfIds.add("220");
                 rfIds.add("181");
+                mockState = State.INSERT_2;
+                break;
+            case INSERT_2:
+                rfIds.add("206");
                 mockState = State.REMOVE;
                 break;
             case REMOVE:

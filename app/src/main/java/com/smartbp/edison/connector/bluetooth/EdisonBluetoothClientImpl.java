@@ -24,16 +24,8 @@ import java.util.UUID;
 public class EdisonBluetoothClientImpl implements EdisonClient {
 
     private  static final String DEVICE_NAME = "HC-05";
-  /*  public void run(){
-        while(true){
-            setUpConnection();
-        }
-    }
-*/
-    public List<String> getIDs() {
 
-        List<String> ids = new LinkedList<>();
-
+    private BluetoothSocket getSocket() {
         /*
         Represents the local Bluetooth adapter (Bluetooth radio).
         The BluetoothAdapter is the entry-point for all Bluetooth interaction.
@@ -41,52 +33,62 @@ public class EdisonBluetoothClientImpl implements EdisonClient {
         instantiate a BluetoothDevice using a known MAC address, and create a BluetoothServerSocket to listen for
         communications from other devices.
         * */
-        BluetoothAdapter myBluetoothAdapter;
-        boolean deviceFound = false;
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         BluetoothSocket socket = null;
         if (myBluetoothAdapter != null) {
             Set<BluetoothDevice> devices = myBluetoothAdapter.getBondedDevices();
             for (BluetoothDevice device : devices) {
                 if (device.getName().equals(DEVICE_NAME)) {
-                    deviceFound = true;
+                    if (BluetoothDevice.BOND_NONE == device.getBondState()) {
+                        System.err.append("Device not connected");
+                        return null;
+                    }
                     try {
-                        socket = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
-                        if(BluetoothDevice.BOND_NONE==device.getBondState()){
-                            System.err.append("Device not connected");
-                            return ids;
-                        }
-                        socket.connect();
-                        //      byte[] data = new byte[1];
-                        //      InputStream inputStream = socket.getInputStream();
-                        //      inputStream.read(data);
-                        //     String s = new String(data, "UTF-8");
-                        BufferedReader ein = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        // char[] data = new char[2];
-                        String line = ein.readLine();
-                        String[] idsArray = line.split(",");
-                        System.out.println(ids);
-                        socket.close();
-                        return Arrays.asList(idsArray);
+                        return device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
                     } catch (Exception e) {
+                        System.err.append("Socket not created");
                         e.printStackTrace();
-                        ids = EdisonClient.MOCK_INSTANCE.getIDs();
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                        ids = EdisonClient.MOCK_INSTANCE.getIDs();
-                    } finally {
-                        if (socket != null) {
-                            try {
-                                socket.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                        return null;
                     }
                 }
             }
         }
-        if (!deviceFound) {
+        return socket;
+    }
+
+
+    public List<String> getIDs() {
+        List<String> ids = new LinkedList<>();
+        BluetoothSocket bluetoothSocket = getSocket();
+        if(bluetoothSocket!=null){
+            try {
+                bluetoothSocket.connect();
+                BufferedReader ein = new BufferedReader(new InputStreamReader(bluetoothSocket.getInputStream()));
+                // char[] data = new char[2];
+                String line = ein.readLine();
+                line = ein.readLine();
+                String[] idsArray = new String[]{};
+                if(!line.trim().isEmpty()){
+                    idsArray = line.split(",");
+                }
+                System.out.println(ids);
+                return Arrays.asList(idsArray);
+            } catch (Exception e) {
+                e.printStackTrace();
+                ids = EdisonClient.MOCK_INSTANCE.getIDs();
+            } catch (Throwable t) {
+                t.printStackTrace();
+                ids = EdisonClient.MOCK_INSTANCE.getIDs();
+            }finally {
+                if (bluetoothSocket != null) {
+                    try {
+                        bluetoothSocket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }else{
             ids = EdisonClient.MOCK_INSTANCE.getIDs();
         }
         return ids;

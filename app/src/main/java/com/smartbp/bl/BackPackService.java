@@ -21,6 +21,8 @@ public interface BackPackService {
 
     CurrentDay getCurrentDay();
 
+    CurrentDay getCurrentDayWithStatus();
+
     Item[] getItemsForSubject(String subjectName, boolean isCurrentDay);
 
 }

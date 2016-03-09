@@ -84,17 +84,35 @@ public class BackBackServiceImpl implements BackPackService {
     }
 
     @Override
+    public CurrentDay getCurrentDayWithStatus() {
+        CurrentDay currentDay = getCurrentDay();
+
+        Subject[] daySubjects = getSubjectsForDay(currentDay.getDayOfWeek());
+
+        DayStatus dayStatus = DayStatus.READY;
+        for (Subject subject : daySubjects) {
+            if (SubjectStatus.MISSING.equals(subject.getStatus())) {
+                dayStatus = DayStatus.MISSING;
+            }
+        }
+
+        currentDay.setDayStatus(dayStatus);
+        return currentDay;
+    }
+
+    @Override
     public CurrentDay getCurrentDay() {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
         dayOfWeek = 5;
 
+        DayOfWeek dayOfWeekValue = DayOfWeek.fromCalendarDay(dayOfWeek);
+
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate = df.format(c.getTime());
 
-        DayOfWeek dayOfWeekValue = DayOfWeek.fromCalendarDay(dayOfWeek);
-        CurrentDay currentDay = new CurrentDay(dayOfWeekValue, DayStatus.MISSING, formattedDate);
+        CurrentDay currentDay = new CurrentDay(dayOfWeekValue, DayStatus.NOT_RELEVANT, formattedDate);
         return currentDay;
     }
 

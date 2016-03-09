@@ -72,12 +72,6 @@ public class InMemoryDBHelper implements DBHelperIfc {
         fridaySchedule.add("Geography");
         fridaySchedule.add("History");
         fridaySchedule.add("Sports");
-
-        List<String> saturdaySchedule = new LinkedList<>();
-        DAY_SCHEDULE.put(DayOfWeek.SATURDAY.name(), saturdaySchedule);
-        saturdaySchedule.add("Geography");
-        saturdaySchedule.add("History");
-        saturdaySchedule.add("Sports");
     }
 
     @Override

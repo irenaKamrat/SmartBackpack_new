@@ -35,7 +35,7 @@ public class CustomDayAdapter extends ArrayAdapter<DayOfWeek> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
         convertView = inflater.inflate(R.layout.day_row, parent, false);
-        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
+        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDayWithStatus();
         TextView day = (TextView) convertView.findViewById(R.id.dayRow);
         ImageView img = (ImageView) convertView.findViewById(R.id.subjectIcon);
         day.setText(days[position].getName());

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +27,14 @@ import java.util.Calendar;
 
 public class CurrentDayActivity extends AppCompatActivity {
 
+
+   /* @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(CurrentDayActivity.this ,MainActivity.class);
+        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        //getApplicationContext().startActivity(intent);
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +55,7 @@ public class CurrentDayActivity extends AppCompatActivity {
 
         final DayOfWeek day = DayOfWeek.fromStringDay(getIntent().getStringExtra("day"));
 
-        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDay();
+        CurrentDay currentDay = BackPackService.INSTANCE.getCurrentDayWithStatus();
 
         final Subject[] subjects = BackPackService.INSTANCE.getSubjectsForDay(day);
         CustomAdapter adapter = new CustomAdapter(this, subjects);
@@ -53,6 +63,7 @@ public class CurrentDayActivity extends AppCompatActivity {
 
         TextView currentDayView = (TextView) findViewById(R.id.current_day);
 
+        //final MainActivity parent = (MainActivity)CurrentDayActivity.this.getParent();
         final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.current_day_swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
@@ -64,6 +75,7 @@ public class CurrentDayActivity extends AppCompatActivity {
                 CustomAdapter adapter = new CustomAdapter(CurrentDayActivity.this, subjects);
                 lv.setAdapter(adapter);
                 mSwipeRefreshLayout.setRefreshing(false);
+                //parent.showDays();
             }
         });
         final boolean isCurrentDay = currentDay.getDayOfWeek().equals(day);
