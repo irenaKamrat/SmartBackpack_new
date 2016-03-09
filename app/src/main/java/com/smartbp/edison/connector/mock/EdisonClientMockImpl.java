@@ -12,7 +12,11 @@ import java.util.List;
 public class EdisonClientMockImpl implements EdisonClient {
 
     private State mockState = State.START;
-    private List<String> rfIds = Arrays.asList("97", "206", "114", "3");
+    private List<String> rfIds = new ArrayList<>();
+
+    public EdisonClientMockImpl(){
+        rfIds.addAll(Arrays.asList("97", "206", "114", "3"));
+    }
 
     @Override
     public List<String> getIDs() {
