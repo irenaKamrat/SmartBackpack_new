@@ -39,6 +39,8 @@ public class CustomItemsAdapter extends ArrayAdapter<Item> {
             img.setImageResource(R.drawable.failure);
         } else if(SubjectStatus.READY.equals(itemStatus)) {
             img.setImageResource(R.drawable.success);
+        } else if(SubjectStatus.EXTRA.equals(itemStatus)) {
+            img.setImageResource(R.drawable.warning);
         }
 
         return convertView;

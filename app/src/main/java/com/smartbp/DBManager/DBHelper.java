@@ -192,6 +192,11 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
         return subjects;
     }
 
+    public DBItem getItemsByID(String itemID) {
+        return null;
+        // TBD
+    }
+
     public void removeAllItems ()
     {
         SQLiteDatabase db = this.getWritableDatabase();

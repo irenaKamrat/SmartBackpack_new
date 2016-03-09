@@ -9,6 +9,7 @@ public interface DBHelperIfc {
 
     public static DBHelperIfc IN_MEMORY_HELPER = new InMemoryDBHelper();
 
-    List<DBSubject> getDaySubjects (String day);
-    List<DBItem> getItemsForSubject (String subject);
+    List<DBSubject> getDaySubjects(String day);
+    List<DBItem> getItemsForSubject(String subject);
+    DBItem getItemsByID(String itemID);
 }

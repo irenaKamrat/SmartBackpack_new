@@ -111,6 +111,16 @@ public class InMemoryDBHelper implements DBHelperIfc {
         }
     }
 
+    @Override
+    public DBItem getItemsByID(String itemID) {
+       for(DBItem item : ITEMS ){
+          if(item.getRfid().equals(itemID)){
+              return  item;
+          }
+       }
+        return null;
+    }
+
     public static void main(String[] args){
         InMemoryDBHelper inMemoryDBHelper = new InMemoryDBHelper();
 
