@@ -26,9 +26,9 @@ public class InMemoryDBHelper implements DBHelperIfc {
         ITEMS.add(new DBItem("Lunch box", "220", ""));
 
         SUBJECTS.put("Math", new DBSubject("Math", Arrays.asList(ITEMS.get(2), ITEMS.get(3))));
-        SUBJECTS.put("English", new DBSubject("English",Arrays.asList(ITEMS.get(1))));
-        SUBJECTS.put("Others", new DBSubject("Others",Arrays.asList(ITEMS.get(4), ITEMS.get(5))));
-        SUBJECTS.put("Literature", new DBSubject("Literature",Arrays.asList(ITEMS.get(3))));
+        SUBJECTS.put("English", new DBSubject("English", Arrays.asList(ITEMS.get(1))));
+        SUBJECTS.put("Others", new DBSubject("Others", Arrays.asList(ITEMS.get(4), ITEMS.get(5))));
+        SUBJECTS.put("Literature", new DBSubject("Literature", Arrays.asList(ITEMS.get(3))));
 
         List<String> sundaySchedule = new LinkedList<>();
         DAY_SCHEDULE.put(DayOfWeek.SUNDAY.name(), sundaySchedule);
@@ -41,37 +41,43 @@ public class InMemoryDBHelper implements DBHelperIfc {
 
         List<String> mondaySchedule = new LinkedList<>();
         DAY_SCHEDULE.put(DayOfWeek.MONDAY.name(), mondaySchedule);
-        sundaySchedule.add("Hebrew");
-        sundaySchedule.add("Science");
-        sundaySchedule.add("Bible");
-        sundaySchedule.add("Others");
+        mondaySchedule.add("Hebrew");
+        mondaySchedule.add("Science");
+        mondaySchedule.add("Bible");
+        mondaySchedule.add("Others");
 
         List<String> tuesdaySchedule = new LinkedList<>();
         DAY_SCHEDULE.put(DayOfWeek.TUESDAY.name(), tuesdaySchedule);
-        sundaySchedule.add("History");
-        sundaySchedule.add("Geography");
-        sundaySchedule.add("Civics");
-        sundaySchedule.add("Literature");
-        sundaySchedule.add("Others");
+        tuesdaySchedule.add("History");
+        tuesdaySchedule.add("Geography");
+        tuesdaySchedule.add("Civics");
+        tuesdaySchedule.add("Literature");
+        tuesdaySchedule.add("Others");
 
         List<String> wednesdaySchedule = new LinkedList<>();
         DAY_SCHEDULE.put(DayOfWeek.WEDNESDAY.name(), wednesdaySchedule);
-        sundaySchedule.add("Sports");
-        sundaySchedule.add("Science");
-        sundaySchedule.add("Music");
-        sundaySchedule.add("Others");
+        wednesdaySchedule.add("Sports");
+        wednesdaySchedule.add("Science");
+        wednesdaySchedule.add("Music");
+        wednesdaySchedule.add("Others");
 
         List<String> thursdaySchedule = new LinkedList<>();
         DAY_SCHEDULE.put(DayOfWeek.THURSDAY.name(), thursdaySchedule);
-        sundaySchedule.add("Math");
-        sundaySchedule.add("English");
-        sundaySchedule.add("Others");
+        thursdaySchedule.add("Math");
+        thursdaySchedule.add("English");
+        thursdaySchedule.add("Others");
 
         List<String> fridaySchedule = new LinkedList<>();
         DAY_SCHEDULE.put(DayOfWeek.FRIDAY.name(), fridaySchedule);
-        sundaySchedule.add("Geography");
-        sundaySchedule.add("History");
-        sundaySchedule.add("Sports");
+        fridaySchedule.add("Geography");
+        fridaySchedule.add("History");
+        fridaySchedule.add("Sports");
+
+        List<String> saturdaySchedule = new LinkedList<>();
+        DAY_SCHEDULE.put(DayOfWeek.SATURDAY.name(), saturdaySchedule);
+        saturdaySchedule.add("Geography");
+        saturdaySchedule.add("History");
+        saturdaySchedule.add("Sports");
     }
 
     @Override
