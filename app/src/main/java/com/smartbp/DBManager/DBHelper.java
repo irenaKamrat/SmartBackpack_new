@@ -17,37 +17,27 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
-    private static final String SQL_CREATE_ENTRIES =
-        //"CREATE TABLE IF NOT EXISTS" + DBContract.Subject.TABLE_NAME + " (" +
-        //    DBContract.Subject._ID + " INTEGER PRIMARY KEY," +
-        //    DBContract.Subject.COLUMN_NAME_SUBJECT_NAME + TEXT_TYPE + COMMA_SEP +
-        //" )" +
-
-        "CREATE TABLE IF NOT EXISTS" + DBContract.Item.TABLE_NAME + " (" +
-            DBContract.Item._ID + " INTEGER PRIMARY KEY autoincrement," +
+    private static final String SQL_CREATE_ITEMS =
+        "CREATE TABLE IF NOT EXISTS " + DBContract.Item.TABLE_NAME + " (" +
+            DBContract.Item._ID + " INTEGER PRIMARY KEY," +
             DBContract.Item.COLUMN_NAME_ITEM_NAME + TEXT_TYPE + COMMA_SEP +
             DBContract.Item.COLUMN_NAME_RFID + TEXT_TYPE + COMMA_SEP +
-            //DBContract.Item.COLUMN_NAME_SUBJECT_ID + INTEGER_TYPE + COMMA_SEP +
             DBContract.Item.COLUMN_NAME_SUBJECT + TEXT_TYPE + COMMA_SEP +
             " UNIQUE (" + DBContract.Item.COLUMN_NAME_RFID + ")" +
-            //"FOREIGN KEY("+ DBContract.Item.COLUMN_NAME_SUBJECT_ID + ") REFERENCES " +
-            //    DBContract.Subject.TABLE_NAME + "(" + DBContract.Subject._ID + ")" +
-        " )" +
-
-        "CREATE TABLE IF NOT EXISTS" + DBContract.Schedule.TABLE_NAME + " (" +
-            DBContract.Schedule._ID + " INTEGER PRIMARY KEY autoincrement," +
-            DBContract.Schedule.COLUMN_NAME_DAY + TEXT_TYPE + COMMA_SEP +
-            DBContract.Schedule.COLUMN_NAME_SUBJECT + TEXT_TYPE + COMMA_SEP +
-            //DBContract.Schedule.COLUMN_NAME_SUBJECT_ID + INTEGER_TYPE + COMMA_SEP +
-            DBContract.Schedule.COLUMN_NAME_ORDER + INTEGER_TYPE + COMMA_SEP +
-            //"FOREIGN KEY(" + DBContract.Schedule.COLUMN_NAME_SUBJECT_ID + ") REFERENCES " +
-            //    DBContract.Subject.TABLE_NAME + "(" + DBContract.Subject._ID + ")" +
         " )";
 
-    private static final String SQL_DELETE_ENTRIES =
-        "DROP TABLE IF EXISTS " + DBContract.Schedule.TABLE_NAME +
-        "DROP TABLE IF EXISTS " + DBContract.Item.TABLE_NAME;
-        //+ "DROP TABLE IF EXISTS " + DBContract.Subject.TABLE_NAME;
+    private static final String SQL_CREATE_SCHEDULE =
+        "CREATE TABLE IF NOT EXISTS " + DBContract.Schedule.TABLE_NAME + " (" +
+            DBContract.Schedule._ID + " INTEGER PRIMARY KEY," +
+            DBContract.Schedule.COLUMN_NAME_DAY + TEXT_TYPE + COMMA_SEP +
+            DBContract.Schedule.COLUMN_NAME_SUBJECT + TEXT_TYPE + COMMA_SEP +
+            DBContract.Schedule.COLUMN_NAME_ORDER + INTEGER_TYPE +
+        ")";
+
+    private static final String SQL_DELETE_ITEMS =
+        "DROP TABLE IF EXISTS " + DBContract.Item.TABLE_NAME + ";";
+    private static final String SQL_DELETE_SCHEDULE =
+        "DROP TABLE IF EXISTS " + DBContract.Schedule.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
@@ -57,26 +47,19 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_ITEMS);
+        db.execSQL(SQL_CREATE_SCHEDULE);
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_DELETE_ITEMS);
+        db.execSQL(SQL_DELETE_SCHEDULE);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
-
-    /*public boolean insertSubject (String subjectName)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBContract.Subject.COLUMN_NAME_SUBJECT_NAME, subjectName);
-        db.insert(DBContract.Subject.TABLE_NAME, null, contentValues);
-        return true;
-    }*/
 
     public boolean insertItem (DBItem item)
     {
@@ -89,23 +72,22 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
         return true;
     }
 
-    private boolean insertScheduleEntry (SQLiteDatabase db, String day, String subjectName, Integer order)
+    public boolean insertScheduleEntry (String day, String subjectName, int order)
     {
-        //SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBContract.Schedule.COLUMN_NAME_DAY, day);
         contentValues.put(DBContract.Schedule.COLUMN_NAME_SUBJECT, subjectName);
         contentValues.put(DBContract.Schedule.COLUMN_NAME_ORDER, order);
-        db.insert(DBContract.Item.TABLE_NAME, null, contentValues);
+        db.insert(DBContract.Schedule.TABLE_NAME, null, contentValues);
         return true;
     }
 
     public boolean insertDaySchedule (String day, List<String> subjects)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Integer order = 0;
+        int order = 0;
         for (String subject : subjects) {
-            insertScheduleEntry(db, day, subject, order);
+            insertScheduleEntry(day, subject, order);
             order++;
         }
         return true;
@@ -139,11 +121,11 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
             do {
 
                 String itemName = cursor.getString(
-                        cursor.getColumnIndexOrThrow(DBContract.Item._ID)
+                        cursor.getColumnIndexOrThrow(DBContract.Item.COLUMN_NAME_ITEM_NAME)
                 );
 
                 String rfid = cursor.getString(
-                        cursor.getColumnIndexOrThrow(DBContract.Item._ID)
+                        cursor.getColumnIndexOrThrow(DBContract.Item.COLUMN_NAME_RFID)
                 );
 
                 DBItem item = new DBItem (itemName, rfid, subject);
@@ -181,13 +163,17 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
             do {
 
                 String subjectName = cursor.getString(
-                        cursor.getColumnIndexOrThrow(DBContract.Schedule._ID)
+                        cursor.getColumnIndexOrThrow(DBContract.Schedule.COLUMN_NAME_SUBJECT)
                 );
 
                 subjectsList.add(subjectName);
             } while (cursor.moveToNext());
         }
 
+        if (!cursor.isClosed())
+        {
+            cursor.close();
+        }
         return subjectsList;
     }
 
@@ -218,5 +204,11 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperIfc  {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(DBContract.Schedule.TABLE_NAME, null, null);
+    }
+
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
 }

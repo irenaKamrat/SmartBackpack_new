@@ -33,6 +33,6 @@ public final class DBContract {
         public static final String COLUMN_NAME_DAY = "day";
         public static final String COLUMN_NAME_SUBJECT = "subject";
         //public static final String COLUMN_NAME_SUBJECT_ID = "subjectid";
-        public static final String COLUMN_NAME_ORDER = "order";
+        public static final String COLUMN_NAME_ORDER = "orderx";
     }
 }

@@ -12,4 +12,6 @@ public interface Setup {
     public void registerItems ();
 
     public void scheduleSetup ();
+
+    public void closeDB ();
 }
