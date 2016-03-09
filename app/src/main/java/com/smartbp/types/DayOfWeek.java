@@ -11,8 +11,7 @@ public enum DayOfWeek {
     TUESDAY("Tuesday", Calendar.TUESDAY),
     WEDNESDAY("Wednesday", Calendar.WEEK_OF_MONTH),
     THURSDAY("Thursday", Calendar.THURSDAY),
-    FRIDAY("Friday", Calendar.FRIDAY),
-    SATURDAY("Saturday", Calendar.SATURDAY);
+    FRIDAY("Friday", Calendar.FRIDAY);
 
     private String name;
     int calendarDay;
