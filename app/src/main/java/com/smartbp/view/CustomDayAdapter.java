@@ -42,11 +42,9 @@ public class CustomDayAdapter extends ArrayAdapter<DayOfWeek> {
         if(currentDay.getDayOfWeek().getName().equals(days[position].getName())) {
             day.setTypeface(null, Typeface.BOLD);
             if (DayStatus.READY.equals(currentDay.getDayStatus())) {
-                //convertView.setBackgroundColor(Color.GREEN);
                 img.setImageResource(R.drawable.success);
             }
             else {
-                //convertView.setBackgroundColor(Color.RED);
                 img.setImageResource(R.drawable.failure);
             }
         }
