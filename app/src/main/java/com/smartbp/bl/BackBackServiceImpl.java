@@ -2,6 +2,9 @@ package com.smartbp.bl;
 
 import android.widget.TextView;
 
+import com.smartbp.DBManager.DBHelperIfc;
+import com.smartbp.DBManager.DBItem;
+import com.smartbp.DBManager.DBSubject;
 import com.smartbp.edison.connector.EdisonClient;
 import com.smartbp.model.CurrentDay;
 import com.smartbp.model.Item;
@@ -12,6 +15,7 @@ import com.smartbp.types.SubjectStatus;
 import com.smartbp.view.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,7 +34,48 @@ public class BackBackServiceImpl implements BackPackService {
     }
 
     public Subject[] getSubjectsForDay(DayOfWeek day) {
-        //TODO
+        /*List<DBSubject> daySubjects = DBHelperIfc.IN_MEMORY_HELPER.getDaySubjects(day.name());
+        List<Subject> subjects = new ArrayList<>();
+
+        if (!getCurrentDay().getDayOfWeek().equals(day)) {
+            for (DBSubject dbSubject : daySubjects) {
+                Subject subject = new Subject(dbSubject.getName(), SubjectStatus.NOT_RELEVANT);
+                subjects.add(subject);
+            }
+        }
+        else {
+            int extraItemCount = 0;
+            for (DBSubject dbSubject : daySubjects) {
+
+                List<DBItem> subjectItems = dbSubject.getItems();
+                int itemCount = 0;
+
+                SubjectStatus subjectStatus = SubjectStatus.MISSING;
+                for (DBItem dbItem : subjectItems) {
+                    if (currentRFids.contains(dbItem.getRfid())) {
+                        itemCount ++;
+                    }
+                    else {
+                        extraItemCount ++;
+                    }
+                }
+
+                if (itemCount == subjectItems.size()) {
+                    subjectStatus = SubjectStatus.READY;
+                }
+
+                Subject subject = new Subject(dbSubject.getName(), subjectStatus);
+                subjects.add(subject);
+            }
+
+            if (extraItemCount > 0) {
+                Subject extra = new Subject("Extra", SubjectStatus.EXTRA);
+            }
+        }
+
+        return (Subject[])subjects.toArray();*/
+
+
         Subject[] subjects = new Subject[1];
         if (getCurrentDay().getDayOfWeek().equals(day)) {
             subjects = new Subject[5];
@@ -97,7 +142,34 @@ public class BackBackServiceImpl implements BackPackService {
     }
 
     public Item[] getItemsForSubject(String subjectName, boolean isCurrentDay) {
-        //TODO
+        /*List<DBItem> subjectItems = DBHelperIfc.IN_MEMORY_HELPER.getItemsForSubject(subjectName);
+        List<Item> items = new ArrayList<>();
+
+        if (!isCurrentDay) {
+            for (DBItem dbItem : subjectItems) {
+                Item item = new Item(dbItem.getName(),SubjectStatus.NOT_RELEVANT );
+                items.add(item);
+            }
+        }
+        else {
+           // if (subjectName.equals("Extra")) {
+
+          //  }
+          //  else {
+                for (DBItem dbItem : subjectItems) {
+                    Item item = null;
+                    if (currentRFids.contains(dbItem.getRfid())) {
+                        item = new Item(dbItem.getName(),SubjectStatus.READY);
+                    }
+                    else {
+                        item = new Item(dbItem.getName(),SubjectStatus.MISSING);
+                    }
+                    items.add(item);
+                }
+           // }
+        }*/
+
+
         Map<String, Item[]> itemsPerSubjectMap = new HashMap<>();
         Item[] mathItems = new Item[3];
         mathItems[0] = new Item("Book1", SubjectStatus.READY);
@@ -132,12 +204,11 @@ public class BackBackServiceImpl implements BackPackService {
         extraItems[1] = new Item("Music Notebook", SubjectStatus.READY);
         itemsPerSubjectMap.put("Extra", extraItems);
 
-        Item[] items = itemsPerSubjectMap.get(subjectName);
-        if (!isCurrentDay) {
-            for (Item item : items) {
-                item.setStatus(SubjectStatus.NOT_RELEVANT);
-            }
-        }
-        return items;
+        //Item[] items = itemsPerSubjectMap.get(subjectName);
+
+
+        //return (Item[])items.toArray();
+
+        return itemsPerSubjectMap.get(subjectName);
     }
 }

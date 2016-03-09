@@ -10,12 +10,6 @@ public class Item {
     private SubjectStatus status;
     private String rfid;
 
-    public Item(String name, SubjectStatus status, String rfid) {
-        this.name = name;
-        this.status = status;
-        this.rfid = rfid;
-    }
-
     public Item(String name, SubjectStatus status) {
         this.name = name;
         this.status = status;

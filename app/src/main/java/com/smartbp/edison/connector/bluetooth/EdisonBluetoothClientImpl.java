@@ -42,13 +42,14 @@ public class EdisonBluetoothClientImpl implements EdisonClient {
         communications from other devices.
         * */
         BluetoothAdapter myBluetoothAdapter;
-
+        boolean deviceFound = false;
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         BluetoothSocket socket = null;
         if (myBluetoothAdapter != null) {
             Set<BluetoothDevice> devices = myBluetoothAdapter.getBondedDevices();
             for (BluetoothDevice device : devices) {
                 if (device.getName().equals(DEVICE_NAME)) {
+                    deviceFound = true;
                     try {
                         socket = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
                         if(BluetoothDevice.BOND_NONE==device.getBondState()){
@@ -69,8 +70,10 @@ public class EdisonBluetoothClientImpl implements EdisonClient {
                         return Arrays.asList(idsArray);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        ids = EdisonClient.MOCK_INSTANCE.getIDs();
                     } catch (Throwable t) {
                         t.printStackTrace();
+                        ids = EdisonClient.MOCK_INSTANCE.getIDs();
                     } finally {
                         if (socket != null) {
                             try {
@@ -82,6 +85,9 @@ public class EdisonBluetoothClientImpl implements EdisonClient {
                     }
                 }
             }
+        }
+        if (!deviceFound) {
+            ids = EdisonClient.MOCK_INSTANCE.getIDs();
         }
         return ids;
     }
