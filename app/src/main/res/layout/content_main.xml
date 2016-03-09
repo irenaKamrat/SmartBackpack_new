@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:id="@+id/imageViewPhoto1"
-        android:src="@drawable/child_1" />
+        android:src="@drawable/bar" />
 
     <ListView
         android:id="@+id/weekDays"
