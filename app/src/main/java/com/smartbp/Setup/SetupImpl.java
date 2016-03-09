@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.smartbp.DBManager.DBHelper;
 import com.smartbp.DBManager.DBItem;
+import com.smartbp.types.DayOfWeek;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +30,22 @@ public class SetupImpl implements Setup{
     }
 
     public void scheduleSetup () {
+        db.removeSchedule();
+        List<String> sundaySchedule = new ArrayList<String>();
+        sundaySchedule.add("Math");
+        sundaySchedule.add("Math");
+        sundaySchedule.add("English");
+        sundaySchedule.add("English");
+        sundaySchedule.add("Hebrew");
+        db.insertDaySchedule(DayOfWeek.SUNDAY.name(), sundaySchedule);
+        db.insertDaySchedule(DayOfWeek.MONDAY.name(), sundaySchedule);
+        db.insertDaySchedule(DayOfWeek.TUESDAY.name(), sundaySchedule);
+        db.insertDaySchedule(DayOfWeek.WEDNESDAY.name(), sundaySchedule);
+        db.insertDaySchedule(DayOfWeek.THURSDAY.name(), sundaySchedule);
+        db.insertDaySchedule(DayOfWeek.FRIDAY.name(), sundaySchedule);
+    }
 
+    public void closeDB() {
+    //    db.closeDB();
     }
 }
